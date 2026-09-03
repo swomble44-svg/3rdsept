@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toprecsellercart | Premium Culinary Guides & Digital Recipes</title>
+    <style>
+        :root {
+            --primary: #c2410c;         /* Warm Terracotta / Chili */
+            --primary-hover: #9a3412;   /* Deep Roasted Pepper */
+            --secondary: #271c19;       /* Deep Espresso Dark */
+            --accent: #f59e0b;          /* Warm Mustard / Saffron */
+            --bg-light: #fffbeb;        /* Warm Cream / Butter */
+            --card-bg: #ffffff;
+            --text-dark: #292524;       /* Dark Chocolate Text */
+            --text-muted: #78716c;
+            --border: #fde68a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation Header */
+        header {
+            background-color: var(--secondary);
+            color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.8rem;
+        }
+
+        nav a {
+            color: #fef3c7;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(39, 28, 25, 0.75), rgba(39, 28, 25, 0.85)), 
+                        url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            color: #ffffff;
+            padding: 8rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+            color: #fff8f0;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #fde68a;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: 1.1rem 2.8rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(194, 65, 12, 0.4);
+        }
+
+        .cta-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+        }
+
+        /* Features Bar */
+        .features-bar {
+            background-color: #fef3c7;
+            border-bottom: 2px solid var(--border);
+            padding: 2.5rem 2rem;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .feature-item h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        /* Main Section Container */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+        }
+
+        /* Recipe Catalog Grid */
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .recipe-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(194, 65, 12, 0.15);
+        }
+
+        .recipe-img {
+            height: 230px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-body {
+            padding: 1.8rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recipe-tag {
+            align-self: flex-start;
+            background-color: #ffedd5;
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .recipe-card h3 {
+            font-size: 1.35rem;
+            color: var(--secondary);
+            margin-bottom: 0.6rem;
+        }
+
+        .recipe-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.2rem;
+            border-top: 1px solid #f5f5f4;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .buy-btn {
+            background-color: var(--secondary);
+            color: #ffffff;
+            padding: 0.7rem 1.4rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: background 0.2s ease;
+        }
+
+        .buy-btn:hover {
+            background-color: var(--primary);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: #fef3c7;
+            padding: 6rem 2rem;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .testimonial-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: #ffffff;
+            padding: 2.2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            color: #44403c;
+            margin-bottom: 1.2rem;
+        }
+
+        .author {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .about-text p {
+            margin-bottom: 1.2rem;
+            color: var(--text-dark);
+            font-size: 1.05rem;
+        }
+
+        /* Legal Blocks */
+        .legal-block {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .legal-block h3 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin: 1.8rem 0 0.8rem 0;
+        }
+
+        .legal-block h3:first-child {
+            margin-top: 0;
+        }
+
+        .legal-block p, .legal-block ul {
+            color: #44403c;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .legal-block ul {
+            padding-left: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: #fef3c7;
+            padding: 4rem 2rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            color: var(--accent);
+            font-size: 1.15rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col a {
+            color: #fef3c7;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid #44403c;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #a8a29e;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">toprecseller<span>cart</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#catalog">Recipes</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                    <li><a href="#disclaimer">Disclaimer</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Master Gourmet Cooking with Chef-Tested Recipes</h1>
+            <p>Get instant access to detailed, professional digital recipe guides complete with exact ratios, step-by-step techniques, and troubleshooting masterclasses.</p>
+            <a href="#catalog" class="cta-btn">Explore The Cart</a>
+        </div>
+    </section>
+
+    <!-- Value Propositions Bar -->
+    <div class="features-bar">
+        <div class="features-grid">
+            <div class="feature-item">
+                <h3>Instant Digital PDF</h3>
+                <p>Download recipe cards instantly to your smartphone, tablet, or desktop.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Chef-Tested Precision</h3>
+                <p>Engineered with exact gram weights, precise temperatures, and step-by-step photos.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Free Updates</h3>
+                <p>Receive updated revisions and new ingredient pairing guides completely free.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Catalog Section -->
+    <section id="catalog" class="section">
+        <div class="section-header">
+            <h2>Featured Recipe Cards</h2>
+            <p>Handcrafted digital guides designed for home cooks who demand restaurant results.</p>
+        </div>
+
+        <div class="recipe-grid">
+            <!-- Recipe 1 -->
+            <div class="recipe-card">
+                <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-body">
+                    <span class="recipe-tag">Baking Guide</span>
+                    <h3>Artisanal Sourdough Masterclass</h3>
+                    <p>Master cold-fermentation, scoring techniques, and hydration percentages to yield bakery-quality sourdough at home.</p>
+                    <div class="card-footer">
+                        <div class="price">$4.99</div>
+                        <a href="#catalog" onclick="alert('Redirecting to secure payment portal for Artisanal Sourdough Masterclass...'); return false;" class="buy-btn">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe 2 -->
+            <div class="recipe-card">
+                <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-body">
+                    <span class="recipe-tag">Main Course</span>
+                    <h3>Authentic Thai Green Curry Blueprint</h3>
+                    <p>Learn how to balance sweet, spicy, salty, and sour flavors through scratch-made paste and coconut milk reduction.</p>
+                    <div class="card-footer">
+                        <div class="price">$3.99</div>
+                        <a href="#catalog" onclick="alert('Redirecting to secure payment portal for Thai Green Curry...'); return false;" class="buy-btn">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe 3 -->
+            <div class="recipe-card">
+                <div class="recipe-img" style="background-image: url('https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-body">
+                    <span class="recipe-tag">Dessert</span>
+                    <h3>Smoked Salt Molten Lava Cake</h3>
+                    <p>Decadent dessert guide with precise temperature timing to achieve a gooey chocolate center every single time.</p>
+                    <div class="card-footer">
+                        <div class="price">$2.99</div>
+                        <a href="#catalog" onclick="alert('Redirecting to secure payment portal for Molten Lava Cake...'); return false;" class="buy-btn">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="reviews" class="testimonials">
+        <div class="section-header">
+            <h2>What Home Chefs Are Saying</h2>
+            <p>Over 10,000+ digital guides downloaded from toprecsellercart worldwide.</p>
+        </div>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>"The Sourdough Masterclass completely transformed my baking. The hydration matrix made sourdough foolproof."</p>
+                <div class="author">— Sarah M., Home Baker</div>
+            </div>
+            <div class="testimonial-card">
+                <p>"toprecsellercart offers far clearer instructions than physical cookbooks I paid $30 for. Concise, precise, and delicious."</p>
+                <div class="author">— Chef David K.</div>
+            </div>
+            <div class="testimonial-card">
+                <p>"Instant download, beautiful layout, and the Thai green curry turned out even better than my local restaurant's!"</p>
+                <div class="author">— Elena R.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>About toprecsellercart</h2>
+                <p>Founded by passionate culinary artists and recipe developers, <strong>toprecsellercart</strong> was created to eliminate frustration and guesswork in home kitchens.</p>
+                <p>Standard online recipes often omit exact temperature timings, ingredient variations, or calibration tips. Our digital guides are rigorously tested, beautifully formatted, and engineered for repeatable success.</p>
+            </div>
+            <div class="recipe-img" style="height: 320px; border-radius: 16px; background-image: url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80');"></div>
+        </div>
+    </section>
+
+    <!-- Privacy Policy Section -->
+    <section id="privacy" class="section">
+        <div class="section-header">
+            <h2>Privacy Policy</h2>
+            <p>How toprecsellercart collects, protects, and respects your personal data.</p>
+        </div>
+        <div class="legal-block">
+            <h3>1. Information We Collect</h3>
+            <p>When you purchase digital recipe products through toprecsellercart, we collect necessary customer details to fulfill your order, including your full name, email address (for PDF download delivery), and secure payment verification tokens.</p>
+
+            <h3>2. How We Use Your Information</h3>
+            <p>Your details are strictly used to fulfill digital file access, issue purchase receipts, respond to support requests, and send optional recipe updates if subscribed.</p>
+
+            <h3>3. Payment & Data Security</h3>
+            <p>toprecsellercart does not store credit card credentials or sensitive banking details on local servers. All financial transactions are securely processed using SSL-encrypted payment gateways.</p>
+
+            <h3>4. Cookies & Analytics</h3>
+            <p>We utilize essential cookies to maintain checkout functionality and track basic site performance metrics. We do not sell or share customer data with third-party advertising brokers.</p>
+        </div>
+    </section>
+
+    <!-- Disclaimer Section -->
+    <section id="disclaimer" class="section">
+        <div class="section-header">
+            <h2>Recipe & Legal Disclaimer</h2>
+            <p>Important guidelines regarding dietary choices, allergens, and cooking results.</p>
+        </div>
+        <div class="legal-block">
+            <h3>1. Culinary Outcome Disclaimer</h3>
+            <p>All recipes and technical guides provided by <strong>toprecsellercart</strong> are thoroughly tested; however, individual cooking outcomes may vary based on kitchen appliances, ambient humidity, altitude, and ingredient brand differences.</p>
+
+            <h3>2. Allergen & Food Safety Warning</h3>
+            <p>It is the end user's responsibility to review ingredient lists for potential food allergies, sensitivities, or dietary restrictions prior to preparation. toprecsellercart is not liable for adverse reactions to foods recommended in our guides.</p>
+
+            <h3>3. Digital Sales & Refund Policy</h3>
+            <p>Because products sold on toprecsellercart consist of non-tangible, instant digital downloads (PDF format), all sales are final once the digital download link is generated.</p>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>toprecsellercart</h4>
+                <p>Chef-tested digital recipe guides engineered for perfect kitchen execution.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Navigation</h4>
+                <ul>
+                    <li><a href="#catalog">Recipe Cards</a></li>
+                    <li><a href="#about">About Our Kitchen</a></li>
+                    <li><a href="#reviews">User Reviews</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal & Policies</h4>
+                <ul>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                    <li><a href="#disclaimer">Legal Disclaimer</a></li>
+                    <li><a href="#disclaimer">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 toprecsellercart. All rights reserved. Registered Digital Goods Provider.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
